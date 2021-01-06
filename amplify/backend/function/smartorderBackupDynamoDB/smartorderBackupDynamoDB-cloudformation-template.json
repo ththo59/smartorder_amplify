@@ -83,7 +83,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-smartorderamplify-dev-121058-deployment",
-          "S3Key": "amplify-builds/smartorderBackupDynamoDB-3641657a593258764a77-build.zip"
+          "S3Key": "amplify-builds/smartorderBackupDynamoDB-717733384164334c694f-build.zip"
         }
       }
     },
@@ -93,12 +93,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "smartorderamplifyLambdaRole1a0614f5",
+            "smartorderamplifyLambdaRoledf763caa",
             {
               "Fn::Join": [
                 "",
                 [
-                  "smartorderamplifyLambdaRole1a0614f5",
+                  "smartorderamplifyLambdaRoledf763caa",
                   "-",
                   {
                     "Ref": "env"
