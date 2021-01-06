@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-smartorderamplify-dev-121058-authRole",
+      "UnauthRoleArn": "arn:aws:iam::504730786267:role/amplify-smartorderamplify-dev-121058-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::504730786267:role/amplify-smartorderamplify-dev-121058-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-smartorderamplify-dev-121058-deployment",
+      "UnauthRoleName": "amplify-smartorderamplify-dev-121058-unauthRole",
+      "StackName": "amplify-smartorderamplify-dev-121058",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:504730786267:stack/amplify-smartorderamplify-dev-121058/ba8e35d0-0393-11eb-9175-0eb7b90bbf8e",
+      "AmplifyAppId": "dpbct4frhiqrv"
+    },
+    "categories": {
+      "auth": {
+        "smartorderamplifyc3fc45aa": {}
+      }
+    }
+  }
+}

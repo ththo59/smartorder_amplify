@@ -1,0 +1,357 @@
+type OrderHistory @model
+@key(fields: ["companyName", "printJobId"])
+@key(name:"companyCodeIndex", fields:["companyName", "companyCode"], queryField: "fieldToReferenceForCompanyCodeIndex")
+@key(name:"systemTypeIndex", fields:["companyName", "systemType"], queryField: "fieldToReferenceForSystemTypeIndex")
+@key(name:"companyCodeOrderDateIndex", fields:["companyName", "companyCodeOrderDateIndex"], queryField: "fieldToReferenceForCompanyCodeOrderDateIndex") {
+    clientData: AWSJSON!
+    companyCode: String!
+    companyCodeOrderDateIndex: String!
+    companyName: ID!
+    createdAt: AWSDateTime!
+    deleteFlg: String
+    linkSystem: String!
+    orderData: AWSJSON!
+    orderDateTime: AWSDateTime!
+    printData: [AWSJSON]
+    printJobId: String!
+    printResultData: [AWSJSON]
+    printXMLData: [String]
+    printResultStatus: String
+    printStatus: String
+    registerData: AWSJSON!
+    systemType: String!
+    serverPrintType: String!
+    updatedAt: AWSDateTime!
+}
+
+type OrderHistorySecond @model
+@key(fields: ["companyName", "printJobId"])
+@key(name:"companyCodeIndex", fields:["companyName", "companyCode"], queryField: "fieldToReferenceForCompanyCodeIndexSecond")
+@key(name:"systemTypeIndex", fields:["companyName", "systemType"], queryField: "fieldToReferenceForSystemTypeIndexSecond")
+@key(name:"companyCodeOrderDateIndex", fields:["companyName", "companyCodeOrderDateIndex"], queryField: "fieldToReferenceForCompanyCodeOrderDateIndexSecond") {
+    clientData: AWSJSON!
+    companyCode: String!
+    companyCodeOrderDateIndex: String!
+    companyName: ID!
+    createdAt: AWSDateTime!
+    deleteFlg: String
+    linkSystem: String!
+    orderData: AWSJSON!
+    orderDateTime: AWSDateTime!
+    printData: [AWSJSON]
+    printJobId: String!
+    printResultData: [AWSJSON]
+    printXMLData: [String]
+    printResultStatus: String
+    printStatus: String
+    registerData: AWSJSON!
+    systemType: String!
+    serverPrintType: String!
+    updatedAt: AWSDateTime!
+}
+
+input ClientDataInput {
+    ip_address: String
+    session_id: String
+}
+
+input CreateOrderHistoryInput {
+    clientData: ClientDataInput!
+    companyCode: String!
+    companyCodeOrderDateIndex: String
+    companyName: ID!
+    deleteFlg: String
+    linkSystem: String!
+    orderData: OrderDataInput!
+    orderDateTime: AWSDateTime!
+    printData: [PrintData]
+    printXMLData: [String]
+    printJobId: String!
+    printResultData: [PrintResultData]
+    printResultStatus: String
+    printStatus: String
+    registerData: RegisterDataInput!
+    systemType: String!
+    serverPrintType: String
+}
+
+input ItemInput {
+    categoryId: String
+    categoryName: String
+    deviceId: String
+    deviceId_02: String
+    itemDrillDownId: String
+    itemDrillDownName: String
+    itemDrillDownNameKitchen: String
+    itemId: String
+    itemName: String
+    itemNameKitchen: String
+    orderDateTime: String
+    orderDetailNo: String
+    portIP: String
+    portIP_02: String
+    price: Int
+    printerIP: String
+    printerIP02: String
+    quantity: Int
+    salesPrice: String
+    taxDivision: String
+    toppingItems: [ToppingItemInput]
+}
+
+input OrderDataInput {
+    amount: Int
+    companyCode: String
+    companyName: String
+    contractId: String
+    datetime: String
+    doOrderPrintFlag: String
+    doPrintFlag: String
+    getUseCart: String
+    ipPrinter: String
+    isFirstOrder: String
+    isTapAccountKey: String
+    listItems: [ItemInput]
+    localIPPrinter: String
+    numCustomers: String
+    orderHeaderId: String
+    orderSubTotal: Int
+    portPrinter: String
+    printDeviceId: String
+    queue_name: String
+    sitePath: String
+    staffName: String
+    storeId: String
+    subtotal: Int
+    subtotalTaxExempt: Int
+    tableCategory: String
+    tableName: String
+    tax: Int
+    taxRate: String
+    total: Int
+    useShopPrintQueue: String
+    vToken: String
+    serviceChargeRate: String
+    serviceChargePrice: String
+    tableChargePerPerson: String
+    taxExclude: String
+}
+
+input PrintData {
+    deviceId: String
+    menuCode: String
+    printType: String
+    printerIP: String
+    printjobid: String
+    orderDetailNo: String
+    xml: String
+}
+
+input PrintResultData {
+    battery: String
+    code: String
+    printjobid: String
+    status: String
+    success: String
+}
+
+input RegisterDataInput {
+    smaregi_id: String
+    smaregi_waiter_shopid: String
+}
+
+input ToppingItemInput {
+    itemDivision: String
+    itemDrillDownId: String
+    itemDrillDownName: String
+    itemId: String
+    itemName: String
+    itemNameKitchen: String
+    orderDateTime: String
+    orderDetailNo: String
+    parentOrderDetailNo: String
+    price: Int
+    quantity: Int
+    salesPrice: String
+    taxDivision: String
+}
+
+input UpdateOrderHistoryInput {
+    clientData: ClientDataInput
+    companyCode: String
+    companyCodeOrderDateIndex: String
+    companyName: ID!
+    deleteFlg: String
+    linkSystem: String
+    orderData: OrderDataInput
+    orderDateTime: AWSDateTime
+    printData: [PrintData]
+    printXMLData: [String]
+    printJobId: String!
+    printResultData: [PrintResultData]
+    printResultStatus: String
+    printStatus: String
+    registerData: RegisterDataInput
+    systemType: String
+    serverPrintType: String
+}
+
+type AccountPrinter @model
+@key(fields: ["companyName", "id"])
+@key(name:"companyCodeIndex", fields:["companyName", "companyCode"], queryField: "fieldAccountPrinterCompanyNameIndex")
+{
+    companyName: String!
+    companyCode: String!
+    createdAt: AWSDateTime!
+    id: ID!
+    printerSerialNo: String
+    licenseEndDate: String
+    updatedAt: AWSDateTime!
+}
+
+type PrinterStatus @model
+@key(fields: ["companyName", "id"])
+@key(name:"companyCodeIndex", fields:["companyName", "companyCode"], queryField: "fieldPrinterStatusCompanyNameIndex")
+{
+    companyName: String!
+    companyCode: String!
+    createdAt: AWSDateTime!
+    id: ID!
+    deviceId: String!
+    battery: String
+    asbStatus: String
+    updatedAt: AWSDateTime!
+    deleteFlg: String
+}
+
+type Query {
+    listAccountPrinterInLicense(
+    companyName: String,
+    companyCode: ModelStringKeyConditionInput,
+    sortDirection: ModelSortDirection,
+    filter: ModelAccountPrinterFilterInput,
+    limit: Int,
+    nextToken: String
+    ): ModelAccountPrinterConnection
+}
+
+#type Mutation {
+#    createOrderHistoryByCompanyNameCompanyCode(companyName: String!, companyCode: String!, input: CreateOrderHistoryInput!, condition: ModelOrderHistoryConditionInput): OrderHistory
+#}
+
+#type Subscription {
+#    onCreateOrderHistoryByCompanyNameCompanyCode (companyName: String!, companyCode: String!): OrderHistory @aws_subscribe(mutations: ["createOrderHistoryByCompanyNameCompanyCode"])
+#}
+
+#input ModelOrderHistoryConditionInput {
+#    clientData: ModelStringInput
+#    companyCode: ModelStringInput
+#    companyCodeOrderDateIndex: ModelStringInput
+#    createdAt: ModelStringInput
+#    deleteFlg: ModelStringInput
+#    linkSystem: ModelStringInput
+#    orderData: ModelStringInput
+#    orderDateTime: ModelStringInput
+#    printData: ModelStringInput
+#    printResultData: ModelStringInput
+#    printXMLData: ModelStringInput
+#    printResultStatus: ModelStringInput
+#    printStatus: ModelStringInput
+#    registerData: ModelStringInput
+#    systemType: ModelStringInput
+#    serverPrintType: ModelStringInput
+#    updatedAt: ModelStringInput
+#    and: [ModelOrderHistoryConditionInput]
+#    or: [ModelOrderHistoryConditionInput]
+#    not: ModelOrderHistoryConditionInput
+#}
+
+type ModelAccountPrinterConnection {
+    items: [AccountPrinter]
+    nextToken: String
+}
+
+input ModelStringKeyConditionInput {
+    eq: String
+    le: String
+    lt: String
+    ge: String
+    gt: String
+    between: [String]
+    beginsWith: String
+}
+
+enum ModelSortDirection {
+    ASC
+    DESC
+}
+
+input ModelAccountPrinterFilterInput {
+    companyName: ModelStringInput
+    companyCode: ModelStringInput
+    createdAt: ModelStringInput
+    id: ModelIDInput
+    printerSerialNo: ModelStringInput
+    licenseEndDate: ModelStringInput
+    updatedAt: ModelStringInput
+    and: [ModelAccountPrinterFilterInput]
+    or: [ModelAccountPrinterFilterInput]
+    not: ModelAccountPrinterFilterInput
+}
+
+input ModelStringInput {
+    ne: String
+    eq: String
+    le: String
+    lt: String
+    ge: String
+    gt: String
+    contains: String
+    notContains: String
+    between: [String]
+    beginsWith: String
+    attributeExists: Boolean
+    attributeType: ModelAttributeTypes
+    size: ModelSizeInput
+}
+
+input ModelIDInput {
+    ne: ID
+    eq: ID
+    le: ID
+    lt: ID
+    ge: ID
+    gt: ID
+    contains: ID
+    notContains: ID
+    between: [ID]
+    beginsWith: ID
+    attributeExists: Boolean
+    attributeType: ModelAttributeTypes
+    size: ModelSizeInput
+}
+
+enum ModelAttributeTypes {
+    binary
+    binarySet
+    bool
+    list
+    map
+    number
+    numberSet
+    string
+    stringSet
+    _null
+}
+
+input ModelSizeInput {
+    ne: Int
+    eq: Int
+    le: Int
+    lt: Int
+    ge: Int
+    gt: Int
+    between: [Int]
+}
+
+# end 3

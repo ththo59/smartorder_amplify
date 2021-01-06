@@ -1,0 +1,82 @@
+{
+    "paths": [
+        {
+            "name": "/order-history",
+            "lambdaFunction": "smartorderREST",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            },
+            "policyResourceName": "/order-history"
+        },
+        {
+            "name": "/account-printer",
+            "lambdaFunction": "accountPrinterREST",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        },
+        {
+            "name": "/new-path",
+            "lambdaFunction": "accountPrinterREST",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        }
+    ],
+    "resourceName": "smartorderRESTApis",
+    "apiName": "smartorderRESTApis",
+    "functionArns": [
+        {
+            "lambdaFunction": "smartorderREST"
+        },
+        {
+            "lambdaFunction": "accountPrinterREST"
+        }
+    ],
+    "privacy": {
+        "auth": 3,
+        "unauth": 0,
+        "authRoleName": "amplify-smartorderamplify-dev-121058-authRole",
+        "unAuthRoleName": "amplify-smartorderamplify-dev-121058-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "smartorderREST",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "accountPrinterREST",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "b9c5c935"
+}
