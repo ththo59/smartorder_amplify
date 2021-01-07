@@ -1,0 +1,92 @@
+## [Start] Set query expression for @key **
+#set( $modelQueryExpression = {} )
+## [Start] Validate key arguments. **
+#if( !$util.isNull($ctx.args.companyCode) && $util.isNull($ctx.args.companyName) )
+  $util.error("When providing argument 'companyCode' you must also provide arguments companyName", "InvalidArgumentsError")
+#end
+## [End] Validate key arguments. **
+#if( !$util.isNull($ctx.args.companyName) )
+  #set( $modelQueryExpression.expression = "#companyName = :companyName" )
+  #set( $modelQueryExpression.expressionNames = {
+  "#companyName": "companyName"
+} )
+  #set( $modelQueryExpression.expressionValues = {
+  ":companyName": {
+      "S": "$ctx.args.companyName"
+  }
+} )
+#end
+## [Start] Applying Key Condition **
+#if( !$util.isNull($ctx.args.companyCode) && !$util.isNull($ctx.args.companyCode.beginsWith) )
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND begins_with(#sortKey, :sortKey)" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "companyCode"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.companyCode.beginsWith" }))
+#end
+#if( !$util.isNull($ctx.args.companyCode) && !$util.isNull($ctx.args.companyCode.between) )
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey BETWEEN :sortKey0 AND :sortKey1" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "companyCode"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey0", { "S": "$ctx.args.companyCode.between[0]" }))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey1", { "S": "$ctx.args.companyCode.between[1]" }))
+#end
+#if( !$util.isNull($ctx.args.companyCode) && !$util.isNull($ctx.args.companyCode.eq) )
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey = :sortKey" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "companyCode"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.companyCode.eq" }))
+#end
+#if( !$util.isNull($ctx.args.companyCode) && !$util.isNull($ctx.args.companyCode.lt) )
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey < :sortKey" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "companyCode"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.companyCode.lt" }))
+#end
+#if( !$util.isNull($ctx.args.companyCode) && !$util.isNull($ctx.args.companyCode.le) )
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey <= :sortKey" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "companyCode"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.companyCode.le" }))
+#end
+#if( !$util.isNull($ctx.args.companyCode) && !$util.isNull($ctx.args.companyCode.gt) )
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey > :sortKey" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "companyCode"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.companyCode.gt" }))
+#end
+#if( !$util.isNull($ctx.args.companyCode) && !$util.isNull($ctx.args.companyCode.ge) )
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey >= :sortKey" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "companyCode"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$ctx.args.companyCode.ge" }))
+#end
+## [End] Applying Key Condition **
+## [End] Set query expression for @key **
+#set( $limit = $util.defaultIfNull($context.args.limit, 100) )
+#set( $QueryRequest = {
+  "version": "2018-05-29",
+  "operation": "Query",
+  "limit": $limit,
+  "query": $modelQueryExpression,
+  "index": "companyCodeIndex"
+} )
+#if( !$util.isNull($ctx.args.sortDirection)
+                    && $ctx.args.sortDirection == "DESC" )
+  #set( $QueryRequest.scanIndexForward = false )
+#else
+  #set( $QueryRequest.scanIndexForward = true )
+#end
+#if( $context.args.nextToken ) #set( $QueryRequest.nextToken = $context.args.nextToken ) #end
+#if( $context.args.filter )
+	#set( $QueryRequest.filter = $util.parseJson("$util.transform.toDynamoDBFilterExpression($ctx.args.filter)") )
+#end
+#if ($QueryRequest.filter.expression != "")
+	#set($QueryRequest.filter.expression = "$QueryRequest.filter.expression AND (#licenseEndDate = :null_eq OR #licenseEndDate > :licenseEndDate_eq)")
+#else
+	#set($QueryRequest.filter.expression = "$QueryRequest.filter.expression (#licenseEndDate = :null_eq OR #licenseEndDate > :licenseEndDate_eq)")
+#end
+#set($QueryRequest.filter.expressionNames = $QueryRequest.filter.expressionNames.put("#licenseEndDate", "licenseEndDate"))
+#set($QueryRequest.filter.expressionValues = $QueryRequest.filter.expressionValues.put(":null_eq",  {
+	"S": ""
+})
+)
+#set ($licenseEndDate = $util.time.nowISO8601())
+#set($QueryRequest.filter.expressionValues = $QueryRequest.filter.expressionValues.put(":licenseEndDate_eq",  {
+	"S": $licenseEndDate
+})
+)
+
+$util.toJson($QueryRequest)
