@@ -20,6 +20,7 @@ module.exports = {
       printStatus
       registerData
       systemType
+      serverPrintType
       updatedAt
     }
   }

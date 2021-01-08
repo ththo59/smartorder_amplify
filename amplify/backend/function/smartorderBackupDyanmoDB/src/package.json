@@ -1,14 +1,12 @@
 {
-  "name": "smartorderAuthorizer",
+  "name": "smartorderBackupDynamoDB",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "aws-serverless-express": "^3.3.5",
     "body-parser": "^1.17.1",
-    "express": "^4.15.2",
-    "axios": "^0.20.0",
-    "jsonwebtoken": "^8.5.1"
+    "express": "^4.15.2"
   },
   "devDependencies": {},
   "scripts": {

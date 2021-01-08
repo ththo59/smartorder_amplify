@@ -429,6 +429,11 @@
                 "produces": [
                   "application/json"
                 ],
+                "security": [
+                  {
+                    "verify-company": []
+                  }
+                ],
                 "responses": {
                   "200": {
                     "description": "200 response",

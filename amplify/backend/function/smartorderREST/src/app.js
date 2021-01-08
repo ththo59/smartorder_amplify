@@ -19,7 +19,6 @@ const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
 const AWS = require('aws-sdk');
 const orderHistoryMutation = require('./graphql/mutations');
-const orderHistoryQuery = require('./graphql/queries');
 const gql = require('graphql-tag');
 const AWSAppSyncClient = require('aws-appsync').default;
 require('es6-promise').polyfill();
@@ -73,59 +72,9 @@ function newClient() {
     })
 }
 
-/**********************
- * Get method *
- **********************/
-
-app.get('/order-history', async function (req, res) {
-
-    let params = {
-        companyName: req.query.companyName,
-        companyCode: {
-            eq: req.query.companyCode
-        },
-        filter: {
-            systemType: {
-                eq: req.query.systemType
-            },
-            orderDateTime: {
-                between: [req.query.fromDateTime, req.query.toDateTime]
-            }
-        }
-    };
-
-    let result = await graphqlQuery(orderHistoryQuery.fieldToReferenceForCompanyCodeIndex, params);
-    let items = [];
-    if (result.status === SUCCESS) {
-        items = result.data.fieldToReferenceForCompanyCodeIndex.items.length === 0 ? [] : result.data.fieldToReferenceForCompanyCodeIndex.items;
-        //next record
-        while (result.data.fieldToReferenceForCompanyCodeIndex.nextToken) {
-            params.nextToken = result.data.fieldToReferenceForCompanyCodeIndex.nextToken;
-            result = await graphqlQuery(orderHistoryQuery.fieldToReferenceForCompanyCodeIndex, params);
-            if (result.status === SUCCESS) {
-                items = items.concat(result.data.fieldToReferenceForCompanyCodeIndex.items);
-            }
-        }
-
-    }
-
-    res.json({
-        status: result.status,
-        message: result.message,
-        data: {
-            total:items.length,
-            items: result.status === SUCCESS ? items : {},
-        }
-    });
-});
-
-/**********************
- * End get method *
- **********************/
-
 /****************************
- * Post method *
- ****************************/
+* Post method *
+****************************/
 
 app.post('/order-history', async function (req, res) {
     try {
@@ -151,8 +100,8 @@ app.post('/order-history', async function (req, res) {
 });
 
 /****************************
- * End post method *
- ****************************/
+* Example put method *
+****************************/
 
 /**
  *
@@ -223,46 +172,7 @@ function graphqlMutation(mutate, vars = {}) {
     });
 }
 
-
-/**
- *
- * @param qry
- * @param vars
- * @returns {Promise<unknown>}
- */
-function graphqlQuery(qry, vars = {}) {
-    return new Promise((resolve, reject) => {
-        let client = newClient();
-        client.hydrated().then(function (client) {
-            const query = gql(qry);
-            client.query({
-                query: query,
-                variables: vars
-            })
-                .then(function logData(data) {
-                    resolve({
-                        status: SUCCESS,
-                        message: "",
-                        data: data.data
-                    });
-                })
-                .catch(function (error) {
-                    resolve({
-                        status: FAIL,
-                        message: error,
-                        data: {}
-                    });
-                })
-        });
-    });
-}
-
-/****************************
- * End core Graphql methods
- ****************************/
-
-
-app.listen(3000, function () {
+app.listen(3000, function() {
     console.log("App started")
 });
 

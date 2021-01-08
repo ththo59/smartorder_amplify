@@ -78,13 +78,3 @@ function allowPolicy(methodArn) {
         },
     };
 }
-
-/**
- * THIS IS DEV BRANCH
- * UPDATE 2ND
- * UPDATE 3RD
- * UPDATE FROM GIT REMOTE
- * UPDATE FROM GIT REMOTE 2ND
- * UPDATE FROM GIT REMOTE 3RD _ SERVER DEV09
- */
-
