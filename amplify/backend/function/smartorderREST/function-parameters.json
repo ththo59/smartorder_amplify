@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "api": {
+      "smartorderamplify": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
